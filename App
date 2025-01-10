@@ -10,13 +10,15 @@ public class App {
         int boardWidth = titleSize * columns; // 32*16 = 512 px
         int boardHeight= titleSize * rows; // 32*16 = 512 px
 
-        JFrame frame = new JFrame("Space Invaders");
+        JFrame frame = new JFrame("Asteorid Destroyer");
         frame.setVisible(true);
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
+        SpaceInvaders spaceInvaders = new SpaceInvaders();
+        frame.add(space)
     }
 }
  
