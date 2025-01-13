@@ -1,7 +1,8 @@
 import javax.swing.*;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)// throws Exception 
+    {
         
         //
         int titleSize = 32;
@@ -16,9 +17,11 @@ public class App {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        SpaceInvaders spaceInvaders = new SpaceInvaders();
-        frame.add(space)
+
+        AsteroidDestroyer asteroidDestroyer = new AsteroidDestroyer();
+        frame.add(asteroidDestroyer);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
- 
+  
