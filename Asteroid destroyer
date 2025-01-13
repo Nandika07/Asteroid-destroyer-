@@ -1,9 +1,5 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.Swing.*;
-import javax.swing.plaf.ColorUIResource;
+import javax.swing.*;
  
 public class AsteroidDestroyer extends JPanel {
   // board
@@ -14,10 +10,11 @@ public class AsteroidDestroyer extends JPanel {
   int boardHeight = titleSize * rows;
 
     public AsteroidDestroyer() {
-        setPreferrdSize(new Dimension(boardWidth, boardHeight));
-        SetBackground(Color.black);
+        setPreferredSize(new Dimension(boardWidth, boardHeight));
+        setBackground(Color.black);
     }
 
   
     
 }
+
