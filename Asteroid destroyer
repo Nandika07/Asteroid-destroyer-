@@ -2,6 +2,21 @@ import java.awt.*;
 import javax.swing.*;
  
 public class AsteroidDestroyer extends JPanel {
+
+  class Block {
+      int x;
+      int y;
+      int width;
+      int height;
+      Image img;
+      boolean alive = true;//used for aliens
+      boolean used = false;// used for bullets 
+    
+      Block (int x, int y, int width, int heigth )
+
+
+
+  }
   // board
   int titleSize = 32;
   int rows = 16;
@@ -9,9 +24,32 @@ public class AsteroidDestroyer extends JPanel {
   int boardWidth = titleSize*columns; // 32*16
   int boardHeight = titleSize * rows;
 
+  Image alienShipImg;
+  Image alienAsteroidImg;
+  Image alienCyanImg;
+  Image alienMagentaImg;
+  Image alienYellowImg;
+
+ArrayList<Image>alienImgArray;
+
     public AsteroidDestroyer() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.black);
+
+        // load images
+        alienShipImg = new ImageIcon (getClass().getResource("./alien-ship.png")).getImage();
+        alienAsteroidImg = new ImageIcon (getClass().getResource("./alien-asteroid.png")).getImage();
+        alienCyanImg = new ImageIcon (getClass().getResource("./alien-cyan.png")).getImage();
+        alienMagentaImg = new ImageIcon (getClass().getResource("./alien-magenta.png")).getImage();
+        alienYellowImg = new ImageIcon (getClass().getResource("./alien-yellow.png")).getImage();
+
+        alienImgArray = new ArrayList<Image>();
+        alienImgArray.add(alienCyanImg);
+        alienImgArray.add(alienAsteroidImg);
+        alienImgArray.add(alienMagentaImg);
+        alienImgArray.add(alienYellowImg);
+
+
     }
 
   
