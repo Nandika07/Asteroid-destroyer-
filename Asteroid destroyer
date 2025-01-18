@@ -1,8 +1,9 @@
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
  
 public class AsteroidDestroyer extends JPanel {
-
   class Block {
       int x;
       int y;
@@ -12,10 +13,13 @@ public class AsteroidDestroyer extends JPanel {
       boolean alive = true;//used for aliens
       boolean used = false;// used for bullets 
     
-      Block (int x, int y, int width, int heigth )
-
-
-
+      Block (int x, int y, int width, int heigth ){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.img = img;
+        }
   }
   // board
   int titleSize = 32;
@@ -31,6 +35,13 @@ public class AsteroidDestroyer extends JPanel {
   Image alienYellowImg;
 
 ArrayList<Image>alienImgArray;
+// ship
+  int shipWidth = tileSize*2;//64px
+  int shipHeight = titleSize;//32px
+  int shipX = titleSize*columns/2 -titleSize;
+  int shipY = tileSize * rows - tileSize*2;
+  int shipVelocityX = tileSize; //ship moving speed
+  Block ship;
 
     public AsteroidDestroyer() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
@@ -48,6 +59,35 @@ ArrayList<Image>alienImgArray;
         alienImgArray.add(alienAsteroidImg);
         alienImgArray.add(alienMagentaImg);
         alienImgArray.add(alienYellowImg);
+        
+        ship = new Block(shipX, shipY, shipWidth, shipHeight, shipImg);
+        alienArray = new ArrayList<Block>();
+        bulletArray = new ArrayList<Block>();
+
+        //game timer
+        gameLoop = new Timer(1000/60, this); //1000/60 = 16.6
+        createAliens();
+        gameLoop.start();
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        draw(g);
+    }
+
+    public void draw(Graphics g) {
+        //ship
+        g.drawImage(alienShip.img, ship.x, ship.y, ship.width, ship.height, null);
+
+        //aliens
+        for (int i = 0; i < alienArray.size(); i++) {
+            Block alien = alienArray.get(i);
+            if (alien.alive) {
+                g.drawImage(alien.img, alien.x, alien.y, alien.width, alien.height, null);
+            }
+        }
+
+
 
 
     }
@@ -55,4 +95,3 @@ ArrayList<Image>alienImgArray;
   
     
 }
-
