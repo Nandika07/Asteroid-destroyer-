@@ -1,97 +1,131 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.*;
- 
-public class AsteroidDestroyer extends JPanel {
-  class Block {
-      int x;
-      int y;
-      int width;
-      int height;
-      Image img;
-      boolean alive = true;//used for aliens
-      boolean used = false;// used for bullets 
-    
-      Block (int x, int y, int width, int heigth ){
+
+public class AsteroidDestroyer extends JPanel implements ActionListener {
+    class Block {
+        int x;
+        int y;
+        int width;
+        int height;
+        Image img;
+        boolean alive = true; // used for aliens
+        boolean used = false; // used for bullets
+
+        Block(int x, int y, int width, int height, Image img) {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
             this.img = img;
         }
-  }
-  // board
-  int titleSize = 32;
-  int rows = 16;
-  int columns = 16;
-  int boardWidth = titleSize*columns; // 32*16
-  int boardHeight = titleSize * rows;
+    }
 
-  Image alienShipImg;
-  Image alienAsteroidImg;
-  Image alienCyanImg;
-  Image alienMagentaImg;
-  Image alienYellowImg;
+    // Board dimensions
+    int titleSize = 32;
+    int rows = 16;
+    int columns = 16;
+    int boardWidth = titleSize * columns; // 32 * 16
+    int boardHeight = titleSize * rows;
 
-ArrayList<Image>alienImgArray;
-// ship
-  int shipWidth = tileSize*2;//64px
-  int shipHeight = titleSize;//32px
-  int shipX = titleSize*columns/2 -titleSize;
-  int shipY = tileSize * rows - tileSize*2;
-  int shipVelocityX = tileSize; //ship moving speed
-  Block ship;
+    // Images
+    Image alienShipImg;
+    Image alienAsteroidImg;
+    Image alienCyanImg;
+    Image alienMagentaImg;
+    Image alienYellowImg;
+
+    ArrayList<Image> alienImgArray;
+
+    // Ship properties
+    int shipWidth = titleSize * 2; // 64px
+    int shipHeight = titleSize;    // 32px
+    int shipX = titleSize * columns / 2 - titleSize;
+    int shipY = titleSize * rows - titleSize * 2;
+    int shipVelocityX = titleSize; // ship moving speed
+    Block ship;
+
+    // Game elements
+    ArrayList<Block> alienArray;
+    ArrayList<Block> bulletArray;
+
+    // Game loop timer
+    Timer gameLoop;
 
     public AsteroidDestroyer() {
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        setBackground(Color.black);
+        setBackground(Color.BLACK);
 
-        // load images
-        alienShipImg = new ImageIcon (getClass().getResource("./alien-ship.png")).getImage();
-        alienAsteroidImg = new ImageIcon (getClass().getResource("./alien-asteroid.png")).getImage();
-        alienCyanImg = new ImageIcon (getClass().getResource("./alien-cyan.png")).getImage();
-        alienMagentaImg = new ImageIcon (getClass().getResource("./alien-magenta.png")).getImage();
-        alienYellowImg = new ImageIcon (getClass().getResource("./alien-yellow.png")).getImage();
+        // Print the current working directory
+        System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
-        alienImgArray = new ArrayList<Image>();
+        // Print the classpath
+        System.out.println("Classpath: " + System.getProperty("java.class.path"));
+        System.out.println(getClass().getResource("C://Users//Nandu//Culminating//Culminating project//Resource//alien-ship.png"));
+        // Load images
+        alienShipImg = new ImageIcon(getClass().getResource("alienship.png")).getImage();
+        alienAsteroidImg = new ImageIcon(getClass().getResource("alienasteroid.png")).getImage();
+        alienCyanImg = new ImageIcon(getClass().getResource("aliencyan.png")).getImage();
+        alienMagentaImg = new ImageIcon(getClass().getResource("alienmagenta.png")).getImage();
+        alienYellowImg = new ImageIcon(getClass().getResource("alienyellow.png")).getImage();
+
+        // Initialize image array
+        alienImgArray = new ArrayList<>();
         alienImgArray.add(alienCyanImg);
         alienImgArray.add(alienAsteroidImg);
         alienImgArray.add(alienMagentaImg);
         alienImgArray.add(alienYellowImg);
-        
-        ship = new Block(shipX, shipY, shipWidth, shipHeight, shipImg);
-        alienArray = new ArrayList<Block>();
-        bulletArray = new ArrayList<Block>();
 
-        //game timer
-        gameLoop = new Timer(1000/60, this); //1000/60 = 16.6
+        // Initialize ship and game elements
+        ship = new Block(shipX, shipY, shipWidth, shipHeight, alienShipImg);
+        alienArray = new ArrayList<>();
+        bulletArray = new ArrayList<>();
+
+        // Game timer
+        gameLoop = new Timer(1000 / 60, this); // 1000/60 = ~16.6ms
         createAliens();
         gameLoop.start();
     }
 
+    public void createAliens() {
+        // Example of how to populate alienArray with alien blocks
+        for (int i = 0; i < 5; i++) {
+            int x = i * titleSize;
+            int y = titleSize;
+            Image img = alienImgArray.get(i % alienImgArray.size());
+            alienArray.add(new Block(x, y, titleSize, titleSize, img));
+        }
+    }
+
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
     }
 
     public void draw(Graphics g) {
-        //ship
-        g.drawImage(alienShip.img, ship.x, ship.y, ship.width, ship.height, null);
+        // Draw ship
+        g.drawImage(ship.img, ship.x, ship.y, ship.width, ship.height, null);
 
-        //aliens
-        for (int i = 0; i < alienArray.size(); i++) {
-            Block alien = alienArray.get(i);
+        // Draw aliens
+        for (Block alien : alienArray) {
             if (alien.alive) {
                 g.drawImage(alien.img, alien.x, alien.y, alien.width, alien.height, null);
             }
         }
 
-
-
-
+        // Draw bullets (if any)
+        for (Block bullet : bulletArray) {
+            g.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        }
     }
 
-  
-    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Update game logic (e.g., move bullets, check collisions)
+        repaint();
+    }
 }
+
