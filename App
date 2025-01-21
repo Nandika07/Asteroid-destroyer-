@@ -1,28 +1,21 @@
 import javax.swing.*;
 
 public class App {
-    public static void main(String[] args)// throws Exception 
-    {
-        
-        //
+    public static void main(String[] args) {
         int titleSize = 32;
         int rows = 16;
         int columns = 16;
-        int boardWidth = titleSize * columns; // 32*16 = 512 px
-        int boardHeight= titleSize * rows; // 32*16 = 512 px
+        int boardWidth = titleSize * columns; // 32 * 16 = 512px
+        int boardHeight = titleSize * rows;  // 32 * 16 = 512px
 
-        JFrame frame = new JFrame("Asteorid Destroyer");
-        frame.setVisible(true);
-        frame.setSize(boardWidth, boardHeight);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        JFrame frame = new JFrame("Asteroid Destroyer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
 
         AsteroidDestroyer asteroidDestroyer = new AsteroidDestroyer();
         frame.add(asteroidDestroyer);
         frame.pack();
         frame.setVisible(true);
-        
     }
 }
- 
