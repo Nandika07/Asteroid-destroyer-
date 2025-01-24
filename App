@@ -2,20 +2,19 @@ import javax.swing.*;
 
 public class App {
     public static void main(String[] args) {
-        int titleSize = 32;
-        int rows = 16;
-        int columns = 16;
-        int boardWidth = titleSize * columns; // 32 * 16 = 512px
-        int boardHeight = titleSize * rows;  // 32 * 16 = 512px
-
+        // Create the main frame
         JFrame frame = new JFrame("Asteroid Destroyer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
 
+        // Create an instance of AsteroidDestroyer
         AsteroidDestroyer asteroidDestroyer = new AsteroidDestroyer();
+
+        // Add the game panel to the frame
         frame.add(asteroidDestroyer);
+
+        // Pack and display the frame
         frame.pack();
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
         frame.setVisible(true);
     }
 }
