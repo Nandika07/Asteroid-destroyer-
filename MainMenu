@@ -1,0 +1,122 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MainMenu {
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Asteroid Destroyer");
+        CardLayout cardLayout = new CardLayout();
+        JPanel cardPanel = new JPanel(cardLayout);
+
+        // Create main menu panel
+        JPanel mainMenuPanel = new JPanel();
+        mainMenuPanel.setLayout(new BorderLayout());
+        mainMenuPanel.setBackground(Color.BLACK);
+
+        // Add top space
+        JPanel topSpacer = new JPanel();
+        topSpacer.setPreferredSize(new Dimension(800, 100)); // Adjust the height for top space (100px here)
+        topSpacer.setBackground(Color.BLACK); // To make it invisible but take up space
+
+        // Title label centered
+        JLabel titleLabel = new JLabel("* GALAXY DEFENDERS *", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        titleLabel.setForeground(Color.CYAN);
+
+        // Create a panel for buttons (placed in the center)
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(2, 1, 10, 10)); // 2 rows, 1 column with spacing
+        buttonPanel.setBackground(Color.BLACK);
+
+        // Buttons
+        JButton howToPlayButton = new JButton("How to Play");
+        howToPlayButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        howToPlayButton.setPreferredSize(new Dimension(150, 40));
+        howToPlayButton.setBackground(Color.DARK_GRAY);
+        howToPlayButton.setForeground(Color.PINK);
+
+        JButton playButton = new JButton("Play Game");
+        playButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        playButton.setPreferredSize(new Dimension(150, 40));
+        playButton.setBackground(Color.darkGray);
+        playButton.setForeground(Color.pink);
+
+        buttonPanel.add(howToPlayButton); // Add "How to Play" button first
+        buttonPanel.add(playButton);     // Add "Play Game" button second
+
+        // Center buttons vertically and horizontally using GridBagLayout
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setBackground(Color.BLACK);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER; // Center the buttons
+        centerPanel.add(buttonPanel, gbc);
+
+        // Add the spacer panel, title, and button panel in order
+        mainMenuPanel.add(topSpacer, BorderLayout.NORTH); // Spacer at the top
+        mainMenuPanel.add(titleLabel, BorderLayout.CENTER); // Title in the center
+        mainMenuPanel.add(centerPanel, BorderLayout.SOUTH); // Buttons in the center
+
+        // Create game panel (AsteroidDestroyer)
+        AsteroidDestroyer gamePanel = new AsteroidDestroyer();
+
+        // Create "How to Play" panel
+        JPanel howToPlayPanel = new JPanel();
+        howToPlayPanel.setLayout(new BorderLayout());
+        JLabel instructionsLabel = new JLabel("<html><center><h1>How to Play</h1>"
+                + "<p>1. Use the arrow keys to move your spaceship.</p>"
+                + "<p>2. Press SPACE to shoot asteroids.</p>"
+                + "<p>3. Destroy as many asteroids and aliens as possible to earn points.</p>"
+                + "<p>4. Avoid collisions with asteroids to stay alive!</p>"
+                + "<p>5. After death, player can press anykey to continue </p>"
+                + "</center></html>", JLabel.CENTER);
+        instructionsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        howToPlayPanel.add(instructionsLabel, BorderLayout.CENTER);
+
+        JButton backToMenuButton = new JButton("(click here to return..) Back to Menu");
+        backToMenuButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backToMenuButton.setBackground(Color.black);
+        backToMenuButton.setForeground(Color.cyan);
+        howToPlayPanel.add(backToMenuButton, BorderLayout.SOUTH);
+        howToPlayPanel.setBackground(Color.pink);
+
+        // Add panels to the cardPanel with CardLayout
+        cardPanel.add(mainMenuPanel, "menu");
+        cardPanel.add(gamePanel, "game");
+        cardPanel.add(howToPlayPanel, "howToPlay");
+
+        // Add action listener to play button
+        playButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "game");
+                gamePanel.requestFocusInWindow(); // Ensure the game panel gets keyboard focus
+                gamePanel.gameLoop.start();       // Explicitly start the game loop
+            }
+        });
+
+        // Add action listener to "How to Play" button
+        howToPlayButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "howToPlay");
+            }
+        });
+
+        // Add action listener to "Back to Menu" button
+        backToMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(cardPanel, "menu");
+            }
+        });
+
+        // Set up the JFrame
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(530, 540);
+        frame.add(cardPanel);
+        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setVisible(true);
+    }
+}
